@@ -1,58 +1,36 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa';
+import { VitePWA } from 'vite-plugin-pwa';
+import mkcert from 'vite-plugin-mkcert';
 // https://vitejs.dev/config/
 
-const manifestForPWA: Partial<VitePWAOptions> = {
-  registerType: 'prompt',
-  includeAssets: ['favicon.svg'],
-  manifest: {
-    name: 'Horizon Planning',
-    short_name: 'HOP',
-    description: 'Horizon Planning',
-    icons: [
-      {
-        src: './public/favicon.svg',
-        sizes: '225x225',
-        type: 'image/svg',
-        purpose: 'any maskable',
-      },
-    ],
-    theme_color: '#171717',
-    background_color: '#e8ebf2',
-    display: 'standalone',
-    scope: '/',
-    start_url: '/',
-    orientation: 'portrait',
-  }
-};
-
 export default defineConfig({
+  base: '/',
+  server: {
+    https: true,
+  },
+  build: {
+    sourcemap: true,
+    assetsDir: "code",
+  },
   plugins: [
     react(),
-    VitePWA({ 
-      registerType: 'autoUpdate', 
-      devOptions: { enabled: true },
-      includeAssets: ['favicon.svg'],
-      injectRegister: "inline",
-      manifest: {
-        name: "Horizon Planning",
-        short_name: 'HOP',
-        description: 'Horizon Planning',
-        theme_color: '#ffffff',
-        icons: [
-          {
-            src: 'icons/manifest-icon-192.maskable.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'manifest-icon-512.maskable.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
+    mkcert(),
+    VitePWA({
+      strategies: "injectManifest",
+      injectManifest: {
+        swSrc: 'public/sw.js',
+        swDest: 'dist/sw.js',
+        globDirectory: 'dist',
+        globPatterns: [
+          '**/*.{html,js,css,json, png}',
+        ],
       },
+      injectRegister: false,
+      manifest: false,
+      devOptions: {
+        enabled: true
+      }
     }),
   ]
 });

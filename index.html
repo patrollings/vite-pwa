@@ -5,14 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Vite + React + TS</title>
     <meta name="description" content="Horizon Planning">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/assets/icons/icon_24.png" type="image/png" />
 
-    <link rel="apple-touch-icon" href="/favicon.svg" sizes="180x180">
-    <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF">
+    <link rel="apple-touch-icon" href="/assets/icons/192x192.png" sizes="192x192">
+    <!-- <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF"> -->
     <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json" />
   </head>
   <body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register(
+          '/sw.js'
+        );
+      }
+    </script>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDxwG92R9Sca32WZrQzxzbnxOMrrhj8OhM",
+        authDomain: "meme-e5648.firebaseapp.com",
+        projectId: "meme-e5648",
+        storageBucket: "meme-e5648.appspot.com",
+        messagingSenderId: "1801940659",
+        appId: "1:1801940659:web:d87fa36a342219b216cac6"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+    </script>
   </body>
 </html>
